@@ -1,6 +1,6 @@
 ---
 name: propose-topic
-description: Research and propose new case study topic(s) for the ai-sysdesign-knowledge repo. Spawns the topic-researcher agent which mines arXiv + engineering blogs and writes proposal files in proposals/ folder. Use when user says "propose topic", "research topic ideas", "/propose-topic <scope>", or wants to grow the planned backlog with fresh research.
+description: Research and propose new case study topic(s) for the agentic-aisys-wiki repo. Spawns the topic-researcher agent which mines arXiv + engineering blogs and writes proposal files in proposals/ folder. Use when user says "propose topic", "research topic ideas", "/propose-topic <scope>", or wants to grow the planned backlog with fresh research.
 ---
 
 # propose-topic skill

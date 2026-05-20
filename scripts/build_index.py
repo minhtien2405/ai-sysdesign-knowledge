@@ -273,7 +273,7 @@ def render_index(cases: list[CaseStudy]) -> str:
 ## Project structure
 
 ```text
-ai-sysdesign-knowledge/
+agentic-aisys-wiki/
 ├── README.md                          # Project overview (start here)
 ├── INDEX.md                           # This file — auto-generated roadmap
 ├── case-studies/                      # Published case studies

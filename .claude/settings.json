@@ -1,5 +1,5 @@
 {
-  "$comment": "Project-scope Claude Code settings for ai-sysdesign-knowledge. Permissions are scoped tightly to scripts/ and read-only ops. Hooks intentionally minimal — auto-lint on write is opt-in via /lint-bilingual or the PostToolUse hook below, which runs validate_refs.py --quick on saved case studies. Non-blocking — errors print but don't abort.",
+  "$comment": "Project-scope Claude Code settings for agentic-aisys-wiki. Permissions are scoped tightly to scripts/ and read-only ops. Hooks intentionally minimal — auto-lint on write is opt-in via /lint-bilingual or the PostToolUse hook below, which runs validate_refs.py --quick on saved case studies. Non-blocking — errors print but don't abort.",
   "permissions": {
     "allow": [
       "Bash(python scripts/build_index.py)",

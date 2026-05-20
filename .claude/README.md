@@ -6,7 +6,7 @@ Lấy cảm hứng từ Karpathy ethos: **show your tools** — repo công khai 
 
 ## Mục đích
 
-Biến `ai-sysdesign-knowledge` thành **self-extending wiki** — clone repo + có Claude Code là chạy được toàn bộ workflow:
+Biến `agentic-aisys-wiki` thành **self-extending wiki** — clone repo + có Claude Code là chạy được toàn bộ workflow:
 
 - Scaffold case study mới qua slash command
 - Review chất lượng tự động trước khi promote
@@ -244,7 +244,7 @@ Hai PostToolUse hook trên `Write|Edit`, cả hai non-blocking (chỉ inform):
 5. (Optional) `pip install pyyaml` system-wide nếu muốn chạy `scripts/build_index.py` trực tiếp
 6. **Mở Claude Code AT repo root** — agents + skills + hooks + MCP auto-detect
 
-> ⚠ **Workspace root quan trọng**: Claude Code chỉ scan `.claude/` ở workspace root, KHÔNG recurse subdirs. Mở workspace ở parent folder (vd `/projects/` thay vì `/projects/ai-sysdesign-knowledge/`) sẽ làm tất cả project-scope agents/skills/MCP invisible. Symptom: `@case-study-reviewer` báo "Agent not found".
+> ⚠ **Workspace root quan trọng**: Claude Code chỉ scan `.claude/` ở workspace root, KHÔNG recurse subdirs. Mở workspace ở parent folder (vd `/projects/` thay vì `/projects/agentic-aisys-wiki/`) sẽ làm tất cả project-scope agents/skills/MCP invisible. Symptom: `@case-study-reviewer` báo "Agent not found".
 
 Nếu muốn xài `ai-sysdesign-knowledge-writer` ở mọi project khác (cross-project user-scope):
 

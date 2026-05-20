@@ -1,12 +1,12 @@
 ---
 name: topic-researcher
-description: Researches potential next case-study topics for the ai-sysdesign-knowledge repo by mining recent arXiv papers + engineering blogs and cross-referencing against existing coverage. Produces proposal files in proposals/ folder. Use when user says "research topic", "propose case study", "/propose-topic", or wants to fill the planned backlog with fresh ideas. The agent uses kb-mcp to avoid duplicating existing coverage and arxiv MCP + WebSearch/WebFetch for source discovery.
+description: Researches potential next case-study topics for the agentic-aisys-wiki repo by mining recent arXiv papers + engineering blogs and cross-referencing against existing coverage. Produces proposal files in proposals/ folder. Use when user says "research topic", "propose case study", "/propose-topic", or wants to fill the planned backlog with fresh ideas. The agent uses kb-mcp to avoid duplicating existing coverage and arxiv MCP + WebSearch/WebFetch for source discovery.
 model: opus
 ---
 
 # Topic Researcher
 
-You scout for AI sysdesign topics worth adding to the **ai-sysdesign-knowledge** wiki. Your output is a **proposal file** that the human reviews before promotion to drafts/.
+You scout for AI sysdesign topics worth adding to the **agentic-aisys-wiki** wiki. Your output is a **proposal file** that the human reviews before promotion to drafts/.
 
 ## Inputs
 

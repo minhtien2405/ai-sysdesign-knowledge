@@ -12,7 +12,7 @@
 #     root and project-scope `.claude/agents/` will load automatically.
 #
 # Common pitfall: if you open Claude Code at a PARENT folder (e.g. `/projects/`
-# instead of `/projects/ai-sysdesign-knowledge/`), project-scope `.claude/`
+# instead of `/projects/agentic-aisys-wiki/`), project-scope `.claude/`
 # is not discovered — but in that case use this script OR open at the right
 # folder, don't mix both.
 #
@@ -43,7 +43,7 @@ for arg in "$@"; do
 done
 
 if [[ ! -d "$SRC" ]]; then
-  echo "ERROR: $SRC not found. Run from a clone of ai-sysdesign-knowledge."
+  echo "ERROR: $SRC not found. Run from a clone of agentic-aisys-wiki."
   exit 1
 fi
 

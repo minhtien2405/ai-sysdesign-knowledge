@@ -1,6 +1,6 @@
 # kb-mcp
 
-Local MCP server cho repo `ai-sysdesign-knowledge`. Expose 6 tools để Claude Code agents query state của knowledge base trong context.
+Local MCP server cho repo `agentic-aisys-wiki`. Expose 6 tools để Claude Code agents query state của knowledge base trong context.
 
 ## Tools
 
@@ -23,7 +23,7 @@ Server được register tự động qua `.mcp.json` ở repo root. Yêu cầu:
 Manual run cho debugging:
 
 ```bash
-cd /path/to/ai-sysdesign-knowledge
+cd /path/to/agentic-aisys-wiki
 uv run --directory .claude/mcp/kb-mcp python server.py
 ```
 

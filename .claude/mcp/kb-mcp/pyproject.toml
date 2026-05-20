@@ -1,7 +1,7 @@
 [project]
 name = "kb-mcp"
 version = "0.1.0"
-description = "Knowledge-base MCP server for ai-sysdesign-knowledge repo. Exposes glossary, case-study state, and validation as MCP tools."
+description = "Knowledge-base MCP server for agentic-aisys-wiki repo. Exposes glossary, case-study state, and validation as MCP tools."
 readme = "README.md"
 requires-python = ">=3.10"
 dependencies = [

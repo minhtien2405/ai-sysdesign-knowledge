@@ -1,4 +1,4 @@
-"""kb-mcp — Knowledge Base MCP server for ai-sysdesign-knowledge repo.
+"""kb-mcp — Knowledge Base MCP server for agentic-aisys-wiki repo.
 
 Exposes 6 tools that let Claude Code agents query the wiki state in-context:
 

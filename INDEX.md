@@ -103,7 +103,7 @@ Mục tiêu: vận hành ML system ở production — scaling, latency, A/B test
 ## Project structure
 
 ```text
-ai-sysdesign-knowledge/
+agentic-aisys-wiki/
 ├── README.md                          # Project overview (start here)
 ├── INDEX.md                           # This file — auto-generated roadmap
 ├── case-studies/                      # Published case studies

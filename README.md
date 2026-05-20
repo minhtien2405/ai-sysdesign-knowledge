@@ -22,7 +22,7 @@ Mỗi case study target **1500–2000 dòng markdown** (từ S1-03 trở đi), c
 ## Cấu trúc repo
 
 ```text
-ai-sysdesign-knowledge/
+agentic-aisys-wiki/
 ├── README.md                          # File này
 ├── INDEX.md                           # Auto-generated roadmap (do NOT edit manually)
 ├── LICENSE
@@ -174,7 +174,7 @@ export PATH="$HOME/.local/bin:$PATH"   # add to ~/.bashrc để persist
 
 # 2. Clone + sync kb-mcp deps
 git clone <this-repo>
-cd ai-sysdesign-knowledge
+cd agentic-aisys-wiki
 cd .claude/mcp/kb-mcp && uv sync --group dev && cd ../../..
 
 # 3. (Optional) install pyyaml system-wide để chạy scripts/ trực tiếp
@@ -201,11 +201,11 @@ pip install pyyaml
 }
 
 
-# 4. Mở Claude Code AT REPO ROOT (workspace phải là ai-sysdesign-knowledge/,
+# 4. Mở Claude Code AT REPO ROOT (workspace phải là agentic-aisys-wiki/,
 #    KHÔNG phải parent folder. Nếu mở parent thì project-scope .claude/ không được scan.)
-cd ai-sysdesign-knowledge
+cd agentic-aisys-wiki
 claude                           # CLI
-# hoặc VS Code: File → Open Folder → chọn ai-sysdesign-knowledge/
+# hoặc VS Code: File → Open Folder → chọn agentic-aisys-wiki/
 ```
 
 Sau khi mở repo, Claude Code tự load:
