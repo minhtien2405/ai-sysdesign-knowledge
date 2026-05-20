@@ -180,6 +180,27 @@ cd .claude/mcp/kb-mcp && uv sync --group dev && cd ../../..
 # 3. (Optional) install pyyaml system-wide để chạy scripts/ trực tiếp
 pip install pyyaml
 
+# 4. Set up .claude/setting.local.json, example:
+{
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "Bash(uv tool *)",
+      "Read(//home/tienpham/.cache/uv/**)",
+      "Bash(gh api *)",
+      "Bash(python3 *)",
+      "Bash(git check-ignore *)",
+      "Bash(cp INDEX.md /tmp/INDEX.before.md)",
+      "Bash(cp docs/progress.md /tmp/progress.before.md)"
+    ]
+  },
+  "enabledMcpjsonServers": [
+    "kb-mcp",
+    "arxiv"
+  ]
+}
+
+
 # 4. Mở Claude Code AT REPO ROOT (workspace phải là ai-sysdesign-knowledge/,
 #    KHÔNG phải parent folder. Nếu mở parent thì project-scope .claude/ không được scan.)
 cd ai-sysdesign-knowledge
