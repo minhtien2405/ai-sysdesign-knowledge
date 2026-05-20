@@ -1,0 +1,24 @@
+[project]
+name = "kb-mcp"
+version = "0.1.0"
+description = "Knowledge-base MCP server for ai-sysdesign-knowledge repo. Exposes glossary, case-study state, and validation as MCP tools."
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = [
+    "mcp[cli]>=1.0.0",
+    "pyyaml>=6.0",
+]
+
+[project.scripts]
+kb-mcp = "server:main"
+
+[tool.uv]
+package = false
+
+[dependency-groups]
+dev = [
+    "pytest>=8.0",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

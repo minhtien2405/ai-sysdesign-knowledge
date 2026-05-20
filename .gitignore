@@ -216,3 +216,9 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# ai-sysdesign-knowledge — agentic infra runtime data
+.claude/mcp/arxiv-storage/*
+!.claude/mcp/arxiv-storage/.gitkeep
+.claude/settings.local.json
+

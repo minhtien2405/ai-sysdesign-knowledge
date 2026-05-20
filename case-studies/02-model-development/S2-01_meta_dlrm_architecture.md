@@ -1,3 +1,25 @@
+---
+id: S2-01
+title: "Meta DLRM (Deep Learning Recommendation Model)"
+summary: "Dense + sparse features, embedding tables 100GB+, model + data parallelism, FBGEMM."
+slug: meta_dlrm_architecture
+scope: 2
+scope_name: model-development
+difficulty: intermediate
+status: done
+tags:
+  - recommendation systems
+  - embedding tables
+  - sparse features
+  - model parallelism
+  - FBGEMM
+  - CTR prediction
+cross_refs: [S1-01, S2-02, S4-01]
+created: 2026-05-20
+last_validated: 2026-05-20
+line_count: 472
+---
+
 # S2-01 — Meta DLRM (Deep Learning Recommendation Model)
 
 > **Scope**: Model Development & Training

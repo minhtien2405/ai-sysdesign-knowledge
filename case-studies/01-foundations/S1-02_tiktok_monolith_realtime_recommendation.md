@@ -1,3 +1,24 @@
+---
+id: S1-02
+title: "TikTok Monolith & Real-time Recommendation"
+summary: "Collisionless embedding table, online learning, multi-channel retrieval, cold-start strategies."
+slug: tiktok_monolith_realtime_recommendation
+scope: 1
+scope_name: foundations
+difficulty: intermediate-advanced
+status: done
+tags:
+  - recommendation systems
+  - online learning
+  - collisionless embedding
+  - multi-channel retrieval
+  - cold-start
+cross_refs: [S1-01, S2-01, S4-01]
+created: 2026-05-20
+last_validated: 2026-05-20
+line_count: 622
+---
+
 # S1-02 — TikTok Monolith & Real-time Recommendation
 
 > **Scope 1** — Foundations | **Difficulty**: Intermediate–Advanced

@@ -1,0 +1,60 @@
+{
+  "$comment": "Project-scope Claude Code settings for ai-sysdesign-knowledge. Permissions are scoped tightly to scripts/ and read-only ops. Hooks intentionally minimal — auto-lint on write is opt-in via /lint-bilingual or the PostToolUse hook below, which runs validate_refs.py --quick on saved case studies. Non-blocking — errors print but don't abort.",
+  "permissions": {
+    "allow": [
+      "Bash(python scripts/build_index.py)",
+      "Bash(python scripts/build_index.py *)",
+      "Bash(python scripts/validate_refs.py *)",
+      "Bash(git status*)",
+      "Bash(git diff*)",
+      "Bash(git log*)",
+      "Bash(ls*)",
+      "Bash(wc -l *)",
+      "Bash(grep -n*)",
+      "Bash(grep -nE*)",
+      "Bash(find case-studies *)",
+      "Bash(find drafts *)",
+      "Bash(mkdir -p drafts*)",
+      "Bash(mkdir -p proposals*)",
+      "Bash(date *)",
+      "Read",
+      "Edit",
+      "Write(drafts/*)",
+      "Write(proposals/*)",
+      "Write(case-studies/*)",
+      "Write(docs/*)",
+      "Write(INDEX.md)",
+      "Bash(uv run *)",
+      "Bash(uvx *)",
+      "Bash(uv sync*)",
+      "mcp__kb-mcp__*",
+      "mcp__arxiv__*"
+    ],
+    "deny": [
+      "Bash(rm -rf*)",
+      "Bash(git push*)",
+      "Bash(git reset --hard*)",
+      "Write(.git/*)",
+      "Edit(.git/*)"
+    ]
+  },
+  "hooks": {
+    "PostToolUse": [
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -qE '\"file_path\":\\s*\"[^\"]*(case-studies|drafts)/[^\"]*\\.md\"'; then FILE=$(echo \"$CLAUDE_TOOL_INPUT\" | python3 -c 'import sys,json; d=json.load(sys.stdin); print(d.get(\"file_path\",\"\"))' 2>/dev/null); if [ -n \"$FILE\" ] && [ -f \"$FILE\" ]; then python scripts/validate_refs.py \"$FILE\" 2>&1 | grep -E '(FAIL|missing|invalid)' | head -5 || true; fi; fi",
+            "timeout": 5
+          },
+          {
+            "type": "command",
+            "command": "if echo \"$CLAUDE_TOOL_INPUT\" | grep -qE '\"file_path\":\\s*\"[^\"]*(case-studies/|drafts/|docs/planned\\.yaml)'; then python scripts/build_index.py --check-duplicates 2>&1 | grep -E '(ERROR|^  S[0-9])' | head -20 || true; fi",
+            "timeout": 5
+          }
+        ]
+      }
+    ]
+  }
+}

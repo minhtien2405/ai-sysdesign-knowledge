@@ -1,3 +1,25 @@
+---
+id: S2-02
+title: "Wide & Deep / DeepFM / DCN: Tiến hoá Architecture cho CTR Prediction"
+summary: "Tiến hoá architecture cho CTR prediction từ Google Play → Huawei → DCN-V2, foundation cho mọi ranking architecture sau."
+slug: wide_deep_deepfm_dcn_evolution
+scope: 2
+scope_name: model-development
+difficulty: intermediate
+status: done
+tags:
+  - CTR prediction
+  - feature interaction
+  - factorization machines
+  - deep learning
+  - recommendation
+  - ads ranking
+cross_refs: [S1-01, S2-01]
+created: 2026-05-20
+last_validated: 2026-05-20
+line_count: 676
+---
+
 # S2-02 — Wide & Deep / DeepFM / DCN: Tiến hoá Architecture cho CTR Prediction
 
 > **Scope**: Model Development & Training

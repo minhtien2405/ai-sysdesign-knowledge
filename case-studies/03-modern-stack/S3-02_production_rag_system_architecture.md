@@ -1,3 +1,27 @@
+---
+id: S3-02
+title: "Production RAG System Architecture"
+summary: "Chunking strategies, hybrid retrieval (BM25 + dense + RRF), reranker, contextual retrieval, RAGAS eval."
+slug: production_rag_system_architecture
+scope: 3
+scope_name: modern-stack
+difficulty: intermediate
+status: done
+tags:
+  - RAG
+  - retrieval-augmented generation
+  - chunking
+  - dense retrieval
+  - hybrid retrieval
+  - reranker
+  - LLM
+  - evaluation
+cross_refs: [S3-01, S3-03, S3-04]
+created: 2026-05-20
+last_validated: 2026-05-20
+line_count: 820
+---
+
 # S3-02 — Production RAG System Architecture
 
 > **Scope**: Modern Tech Stack (LLM / RAG / Agent / CV)
@@ -554,7 +578,7 @@ Vấn đề "lost in the middle" (Liu et al. 2023): LLM attention biased về đ
 | **Milvus** | Open source | Very large scale (billion+) | Complex ops |
 | **FAISS** | Library | < 100M, embed in app | Không phải DB, không filter native |
 
-Xem [S3-03 Vector DB Internals](S3-03_vector_database_internals.md) (planned) cho deep dive HNSW vs IVF-PQ.
+Xem [S3-03 Vector Database Internals — HNSW vs IVF-PQ](S3-03_vector_db_hnsw_ivf_pq.md) cho deep dive về index structures, recall/QPS trade-off và so sánh Pinecone/Weaviate/Milvus/pgvector.
 
 ### 5.3 Open source vs API stack
 

@@ -1,3 +1,25 @@
+---
+id: S3-01
+title: "vLLM Deep Dive: PagedAttention & Continuous Batching"
+summary: "KV cache management, block table, prefill/decode scheduling, throughput vs latency."
+slug: vllm_paged_attention_continuous_batching
+scope: 3
+scope_name: modern-stack
+difficulty: advanced
+status: done
+tags:
+  - LLM serving
+  - KV cache
+  - PagedAttention
+  - continuous batching
+  - throughput optimization
+  - GPU memory management
+cross_refs: [S3-02, S3-04, S4-04]
+created: 2026-05-20
+last_validated: 2026-05-20
+line_count: 534
+---
+
 # S3-01 — vLLM Deep Dive: PagedAttention & Continuous Batching
 
 > **Scope**: Modern Tech Stack (LLM serving)
@@ -500,6 +522,7 @@ Production thường chọn FP8 (nếu H100) hoặc AWQ 4-bit cho deployment, v�
 ### Related case studies (đọc tiếp)
 
 - **S3-02 Production RAG System Architecture** — vLLM ở phía generator + vector DB ở phía retriever.
+- **[S3-03 Vector Database Internals — HNSW vs IVF-PQ](S3-03_vector_db_hnsw_ivf_pq.md)** — deep dive về ANN index structures (HNSW, IVF-PQ, DiskANN) cho retrieval layer đi kèm LLM serving stack.
 - **S4-04 GPU Cluster Management & Cost Optimization** — multi-tenant LLM serving ở scale.
 - **S3-04 Agent Framework Architecture** — workload pattern agent (multi-turn, tool calling) khác với chat.
 

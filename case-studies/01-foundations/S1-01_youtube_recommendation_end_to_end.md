@@ -1,3 +1,25 @@
+---
+id: S1-01
+title: "YouTube Recommendation System End-to-End"
+summary: "Two-stage architecture (candidate generation + ranking), DNN models, serving infra ở scale tỷ user."
+slug: youtube_recommendation_end_to_end
+scope: 1
+scope_name: foundations
+difficulty: foundational
+status: done
+tags:
+  - recommendation systems
+  - two-stage architecture
+  - candidate generation
+  - ranking
+  - deep learning
+  - large-scale serving
+cross_refs: [S1-02, S2-01, S2-02, S4-01, S4-02]
+created: 2026-05-20
+last_validated: 2026-05-20
+line_count: 520
+---
+
 # S1-01 — YouTube Recommendation System End-to-End
 
 > **Scope**: AI/ML System Design Foundations
@@ -7,14 +29,14 @@
 
 ---
 
-## 1. Tổng quan (Overview)
+## 1. Overview
 
 YouTube là một trong những recommendation system lớn nhất thế giới — recommend video từ **corpus hàng tỷ videos** cho **2+ tỷ logged-in users mỗi tháng** (số liệu công bố của Google năm 2019, hiện tại có thể cao hơn). Mỗi lần user mở app/web, YouTube phải sinh ra một feed cá nhân hoá trong **vài trăm milliseconds**, trong khi vẫn đảm bảo:
 
 - **Relevance** — video user thực sự muốn xem.
 - **Freshness** — videos mới upload (cold-start items) cũng phải có cơ hội xuất hiện.
 - **Diversity** — không spam một chủ đề.
-- **Long-term user satisfaction** — không chỉ optimize CTR ngắn hạn (sẽ dẫn đến clickbait).
+- **Long-term user satisfaction** — không chỉ optimize CTR (Click-Through Rate) ngắn hạn (sẽ dẫn đến clickbait).
 
 ### Business problem
 
@@ -236,6 +258,8 @@ def candidate_generation(user_id, context):
 - Có thể dùng **nhiều features hơn** — cross features (user × video), realtime counters, position features.
 - Cần precision cao hơn — sai một vài positions đầu sẽ trực tiếp impact user experience.
 
+Lineage của CTR ranking architectures: từ Wide & Deep (Google 2016) → DeepFM (Huawei 2017) → DCN-V2 (Google 2020) — xem [S2-02 Wide & Deep / DeepFM / DCN evolution](../02-model-development/S2-02_wide_deep_deepfm_dcn_evolution.md). Khi scale lên hàng chục triệu features + 100GB+ embedding tables (như Meta Ads), kiến trúc tiến hoá thành DLRM với hybrid model + data parallelism — xem [S2-01 Meta DLRM](../02-model-development/S2-01_meta_dlrm_architecture.md).
+
 #### Multi-task objectives (Zhao et al. 2019)
 
 YouTube không optimize một mục tiêu duy nhất. Paper 2019 mô tả MMoE (Multi-gate Mixture-of-Experts) cho **multi-task ranking**:
@@ -362,7 +386,7 @@ YouTube train ở scale petabyte data. Public info cho thấy họ dùng:
 - **Mesh-TensorFlow / GSPMD** cho model parallelism (suy đoán dựa trên Google papers).
 - **Bigtable / Spanner / GCS** cho data storage.
 
-Training cadence: theo các talks, ranking model được retrain **hàng ngày**, candidate gen model retrain **hàng tuần**. Online learning (continuous training) cũng đã được experiment nhưng public details chưa rõ.
+Training cadence: theo các talks, ranking model được retrain **hàng ngày**, candidate gen model retrain **hàng tuần**. Online learning (continuous training) cũng đã được experiment nhưng public details chưa rõ. TikTok lại go all-in cho online learning paradigm — model weights cập nhật trong vài phút từ realtime watch events; xem [S1-02 TikTok Monolith](S1-02_tiktok_monolith_realtime_recommendation.md) cho comparison.
 
 ### 4.5 Serving infrastructure
 
@@ -437,11 +461,11 @@ YouTube vẫn dùng **feature engineering nặng** (cross features, realtime cou
 - Một số features (như "time since last watch") chứa strong prior — explicit hơn dễ train.
 - Debug + monitor dễ hơn khi có named features.
 
-Trade-off: nhiều feature → nhiều pipeline → maintenance cost cao. YouTube đầu tư mạnh vào feature platform để giảm cost này (tương tự Uber Michelangelo — xem S4-01).
+Trade-off: nhiều feature → nhiều pipeline → maintenance cost cao. YouTube đầu tư mạnh vào feature platform để giảm cost này (tương tự Uber Michelangelo — xem [S4-01 Michelangelo feature store](../04-production/S4-01_uber_michelangelo_feature_store.md)).
 
 ### 5.5 Personalization vs popularity baseline
 
-Một insight quan trọng từ paper 2016: **đơn thuần recommend trending videos** đã là baseline rất mạnh. Personalization phải beat baseline này — không trivial. Vì vậy, big tech reco luôn có **A/B test rigorous** với holdout là popularity baseline hoặc previous model.
+Một insight quan trọng từ paper 2016: **đơn thuần recommend trending videos** đã là baseline rất mạnh. Personalization phải beat baseline này — không trivial. Vì vậy, big tech reco luôn có **A/B test rigorous** với holdout là popularity baseline hoặc previous model — xem [S4-02 A/B testing & experimentation platforms](../04-production/S4-02_ab_testing_experimentation_platforms.md) cho CUPED variance reduction, mSPRT sequential testing, MAB exploration, SRM guardrails.
 
 ---
 
@@ -479,9 +503,9 @@ Một insight quan trọng từ paper 2016: **đơn thuần recommend trending v
 
 ### Engineering blogs / talks
 
-4. **Google AI Blog.** "Announcing ScaNN: Efficient Vector Similarity Search." 2020.
+4. **Google AI Blog.** ["Announcing ScaNN: Efficient Vector Similarity Search"](https://research.google/blog/announcing-scann-efficient-vector-similarity-search/) (2020).
 5. **Cristos Goodrow (YouTube).** Various talks về YouTube recommendation, đặc biệt "On YouTube's Recommendation System" (YouTube Blog, 2021). [Link](https://blog.youtube/inside-youtube/on-youtubes-recommendation-system/)
-6. **TFX paper** — Baylor et al. KDD 2017, mô tả Google's TFX (TensorFlow Extended) production ML platform mà YouTube là user internal.
+6. **Baylor et al. (Google).** ["TFX: A TensorFlow-Based Production-Scale Machine Learning Platform"](https://dl.acm.org/doi/10.1145/3097983.3098021) (KDD 2017) — mô tả Google's TFX (TensorFlow Extended) production ML platform mà YouTube là user internal.
 
 ### Related case studies (đọc tiếp)
 

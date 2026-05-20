@@ -1,3 +1,27 @@
+---
+id: S4-02
+title: "A/B Testing & Experimentation Platforms (Booking, Airbnb, LinkedIn, Netflix)"
+summary: "Sample size, CUPED, sequential testing (mSPRT), interleaving, MAB, SRM detection, guardrails."
+slug: ab_testing_experimentation_platforms
+scope: 4
+scope_name: production
+difficulty: intermediate
+status: done
+tags:
+  - A/B testing
+  - experimentation platform
+  - CUPED
+  - variance reduction
+  - sequential testing
+  - interleaving
+  - causal inference
+  - MLOps
+cross_refs: [S1-01, S4-01]
+created: 2026-05-20
+last_validated: 2026-05-20
+line_count: 787
+---
+
 # S4-02 — A/B Testing & Experimentation Platforms (Booking, Airbnb, LinkedIn, Netflix)
 
 > **Scope**: Production AI Systems

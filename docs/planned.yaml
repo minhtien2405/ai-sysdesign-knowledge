@@ -1,0 +1,62 @@
+# Planned case studies — single source of truth for "📋 planned" entries.
+# build_index.py merges this with done case studies (read from frontmatter) → INDEX.md.
+#
+# Adding a planned topic: append entry below. Promoting to done: delete entry from here
+# AND create case-studies/0X-name/SX-YY_*.md with frontmatter status:done.
+
+planned:
+  - id: S1-04
+    title: Netflix Personalization Stack
+    scope: 1
+    scope_name: foundations
+    difficulty: foundational
+    summary: "Multi-armed bandits, contextual ranking, offline/online evaluation, A/B test culture."
+
+  - id: S2-03
+    title: Alibaba DIN / DIEN — User Interest Modeling
+    scope: 2
+    scope_name: model-development
+    difficulty: advanced
+    summary: "Attention over user behavior sequence, GRU-based interest evolution."
+
+  - id: S2-04
+    title: LLM Pretraining at Scale (GPT/LLaMA-style)
+    scope: 2
+    scope_name: model-development
+    difficulty: advanced
+    summary: "Data curation, tokenizer choices, 3D parallelism, training stability (loss spikes, gradient clipping)."
+
+  - id: S2-05
+    title: Finetune vs RAG vs Prompt Engineering — Decision Framework
+    scope: 2
+    scope_name: model-development
+    difficulty: foundational
+    summary: "Khi nào nên finetune, khi nào RAG, khi nào chỉ cần prompt — qua case study thực tế."
+
+  - id: S3-04
+    title: Agent Framework Architecture (ReAct, tool use, multi-agent)
+    scope: 3
+    scope_name: modern-stack
+    difficulty: advanced
+    summary: "Planning, tool calling, memory, error recovery, observability. Bao gồm Claude Code harness internals."
+
+  - id: S3-05
+    title: OCR + Document AI Pipeline (LayoutLM / Donut / multimodal LLM)
+    scope: 3
+    scope_name: modern-stack
+    difficulty: intermediate
+    summary: "End-to-end document understanding, table extraction, layout-aware models."
+
+  - id: S4-03
+    title: Data & Model Drift Detection in Production
+    scope: 4
+    scope_name: production
+    difficulty: intermediate
+    summary: "PSI, KS test, embedding drift, prediction drift, alerting strategies."
+
+  - id: S4-04
+    title: GPU Cluster Management & Cost Optimization for LLM Inference
+    scope: 4
+    scope_name: production
+    difficulty: advanced
+    summary: "Multi-tenant serving, GPU pooling, spot vs reserved, quantization (INT8/FP8/AWQ/GPTQ)."

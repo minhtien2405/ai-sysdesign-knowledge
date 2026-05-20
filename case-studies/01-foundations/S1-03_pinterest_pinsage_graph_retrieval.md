@@ -1,3 +1,25 @@
+---
+id: S1-03
+title: "Pinterest PinSage: Graph-based Retrieval at 3 Billion Pins Scale"
+summary: "GNN ở scale 3 tỷ pins: random-walk sampling, importance pooling, MapReduce inference, PinnerSage/TransAct evolution."
+slug: pinterest_pinsage_graph_retrieval
+scope: 1
+scope_name: foundations
+difficulty: intermediate-advanced
+status: done
+tags:
+  - GNN
+  - graph neural network
+  - PinSage
+  - random walk sampling
+  - importance pooling
+  - MapReduce inference
+cross_refs: [S1-01, S2-01, S3-03]
+created: 2026-05-20
+last_validated: 2026-05-20
+line_count: 1536
+---
+
 # S1-03 — Pinterest PinSage: Graph-based Retrieval at 3 Billion Pins Scale
 
 > **Difficulty**: Intermediate–Advanced
@@ -1416,7 +1438,7 @@ Graph evolves. Daily refresh is minimum; weekly is risky. Plan inference pipelin
 - Foundations cho retrieval-ranking two-stage architecture: **[S1-01 YouTube Recommendation](S1-01_youtube_recommendation_end_to_end.md)**.
 - Cho realtime / online learning bottleneck mà PinSage không giải quyết: **[S1-02 TikTok Monolith](S1-02_tiktok_monolith_realtime_recommendation.md)**.
 - Ranking stage that consumes PinSage embeddings: **[S2-02 Wide & Deep / DeepFM / DCN evolution](S2-02_wide_deep_deepfm_dcn_evolution.md)**.
-- ANN serving cho 3B PinSage vectors: link tới **S3-03 Vector Database Internals** (planned).
+- ANN serving cho 3B PinSage vectors: xem **[S3-03 Vector Database Internals — HNSW vs IVF-PQ](../03-modern-stack/S3-03_vector_db_hnsw_ivf_pq.md)** cho deep dive về HNSW/IVF-PQ trade-off và lựa chọn index cho hot subset vs cold tail.
 - Feature store cho graph features: **[S4-01 Uber Michelangelo](S4-01_uber_michelangelo_feature_store.md)**.
 
 ---

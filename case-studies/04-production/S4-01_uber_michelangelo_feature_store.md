@@ -1,3 +1,26 @@
+---
+id: S4-01
+title: "Uber Michelangelo: End-to-End ML Platform & Feature Store"
+summary: "Feature store (online + offline), training pipeline, model registry, monitoring."
+slug: uber_michelangelo_feature_store
+scope: 4
+scope_name: production
+difficulty: advanced
+status: done
+tags:
+  - ML platform
+  - feature store
+  - online/offline serving
+  - training pipeline
+  - model registry
+  - monitoring
+  - MLOps
+cross_refs: [S1-01, S2-01, S4-02, S4-03]
+created: 2026-05-20
+last_validated: 2026-05-20
+line_count: 585
+---
+
 # S4-01 — Uber Michelangelo: End-to-End ML Platform & Feature Store
 
 > **Scope**: Production AI Systems
