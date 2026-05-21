@@ -1,0 +1,75 @@
+name: Quarterly reference validation
+
+# Phase 3 autonomy — mỗi 3 tháng (1st of Jan/Apr/Jul/Oct, 00:00 UTC), invoke
+# @reference-validator để check URL liveness + flag stale numeric claims trên
+# TẤT CẢ case studies. Nếu detect dead links → open PR fix.
+#
+# Manual trigger: Actions tab → "Quarterly reference validation" → Run workflow
+# với optional case_id để check 1 file thay vì all.
+# Required secret: ANTHROPIC_API_KEY.
+
+on:
+  schedule:
+    - cron: '0 0 1 */3 *'   # 1st of every 3rd month, 00:00 UTC
+  workflow_dispatch:
+    inputs:
+      case_id:
+        description: 'Specific case-study id (e.g. S3-03), leave empty for all'
+        required: false
+        default: ''
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install pyyaml
+        run: pip install pyyaml
+
+      - name: Run reference-validator via Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-7
+          direct_prompt: |
+            Invoke @reference-validator agent to audit ${{ inputs.case_id && format('case study {0}', inputs.case_id) || 'ALL published case studies in case-studies/' }}.
+
+            For each file:
+            1. Check every URL in the References section with WebFetch — flag any
+               returning 404, 410, 5xx, or redirect to unrelated content.
+            2. Verify every arXiv ID resolves to a real paper.
+            3. Spot-check numeric claims (QPS, latency, recall, etc.) — flag if the
+               citing source is > 2 years old and the claim seems stale.
+            4. Update each file's frontmatter `last_validated` to today's date.
+
+            Output: a markdown report summarizing dead links + stale claims, grouped
+            by file. If ANY dead URLs found, ALSO fix them inline (replace with
+            archived versions via web.archive.org wherever possible, OR mark
+            "[link broken as of <date>]" with original URL preserved as comment).
+
+            Commit message: "Quarterly: refresh references (fix dead URLs, update last_validated)"
+            Branch: `automation/quarterly-refs-$(date +%Y-%m-%d)`
+            PR title: "Quarterly reference audit — <N> dead links fixed, <M> stale claims flagged"
+            PR body: report summary + per-file changes.
+
+            If ZERO dead links + ZERO stale claims → DO NOT open PR, just update
+            last_validated frontmatter và commit lên main directly với message
+            "Quarterly: all references verified, no changes needed".
+
+      - name: Sanity check
+        run: python scripts/validate_refs.py --all

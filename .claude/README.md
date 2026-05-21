@@ -229,11 +229,15 @@ Hai PostToolUse hook trên `Write|Edit`, cả hai non-blocking (chỉ inform):
 - `/propose-topic <scope>` skill + `/validate-refs-full <id|all>` skill
 - 11/11 pytest pass trên kb-mcp core tools
 
-### 📋 Phase 3 — Autonomy
+### 🚧 Phase 3 — Autonomy (scaffolded, needs `ANTHROPIC_API_KEY` to activate)
 
-- Weekly cron: `topic-researcher` fill `proposals/`
-- Quarterly cron: `reference-validator --full` open PR cho dead URLs
-- Post-merge hook: trigger `cross-ref-finder` qua Claude API
+GitHub Actions workflows trong [`../.github/workflows/`](../.github/workflows/):
+
+- **Weekly cron** (`weekly-topic-research.yml`, Monday 00:00 UTC): runs `@topic-researcher` → new `proposals/PROPOSAL_*.md` + PR.
+- **Quarterly cron** (`quarterly-ref-validation.yml`, 1st of Jan/Apr/Jul/Oct): runs `@reference-validator` → URL liveness audit, PR fix dead links.
+- **Post-merge hook** (`post-merge-cross-ref.yml`, on PR merge to main): detects newly added case-study file, runs `@cross-ref-finder` → backfill links + PR.
+
+**Enable**: add `ANTHROPIC_API_KEY` secret (Repo settings → Secrets → Actions) + grant write permissions to workflows. Chi tiết: [`../.github/README.md`](../.github/README.md).
 
 ## Installation cho user khác clone repo
 

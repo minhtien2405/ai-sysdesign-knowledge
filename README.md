@@ -136,7 +136,7 @@ Knowledge base **self-maintains** qua Claude Code agents + skills. Một id case
 |---|---|---|
 | 1 — Foundation | ✅ done | Frontmatter schema, `build_index.py`, `validate_refs.py`, writer + reviewer agents, 4 skills, validate-on-save hook |
 | 2 — MCP + 3 agents + integrity | ✅ done (2026-05-20) | `kb-mcp` server (6 tools), arxiv MCP integration, topic-researcher / cross-ref-finder / reference-validator agents, `/propose-topic` + `/validate-refs-full` skills, duplicate-prevention mechanism |
-| 3 — Autonomy | 📋 planned | Weekly cron `topic-researcher` fill `proposals/`, quarterly `reference-validator --full` open PR cho dead URLs, post-merge auto cross-ref-finder qua Claude API |
+| 3 — Autonomy | 🚧 scaffolded | 3 GitHub Actions trong `.github/workflows/`: weekly `@topic-researcher` cron, quarterly `@reference-validator --full` cron, post-merge `@cross-ref-finder`. Activate bằng cách add `ANTHROPIC_API_KEY` secret — xem [`.github/README.md`](.github/README.md). |
 
 Chi tiết operator-side: [`.claude/README.md`](.claude/README.md).
 

@@ -1,0 +1,77 @@
+name: Weekly topic research
+
+# Phase 3 autonomy — every Monday 00:00 UTC, invoke @topic-researcher để mines
+# arxiv + engineering blogs cho scope-3 (modern-stack), produce a new proposal
+# file in proposals/ và open PR.
+#
+# Manual trigger: Actions tab → "Weekly topic research" → Run workflow.
+# Required secret: ANTHROPIC_API_KEY (Repository settings → Secrets and variables → Actions).
+
+on:
+  schedule:
+    - cron: '0 0 * * 1'   # Monday 00:00 UTC
+  workflow_dispatch:
+    inputs:
+      scope:
+        description: 'Scope to research (1-4)'
+        required: false
+        default: '3'
+        type: choice
+        options: ['1', '2', '3', '4']
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  research:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install uv
+        run: |
+          curl -LsSf https://astral.sh/uv/install.sh | sh
+          echo "$HOME/.local/bin" >> $GITHUB_PATH
+
+      - name: Sync kb-mcp dependencies
+        run: |
+          cd .claude/mcp/kb-mcp
+          uv sync --group dev
+
+      - name: Install pyyaml (for scripts/)
+        run: pip install pyyaml
+
+      - name: Run topic-researcher via Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-7
+          direct_prompt: |
+            Invoke the topic-researcher agent for scope ${{ inputs.scope || '3' }}
+            (modern-stack by default). The agent mines arxiv + engineering blogs for
+            potential new case-study topics, cross-references against existing coverage
+            via kb-mcp, and writes ONE new proposal file in `proposals/`.
+
+            File format: `proposals/PROPOSAL_S<scope>-<NN>_<slug>.md` with YAML frontmatter
+            (proposed_id, proposed_title, proposed_scope, proposed_difficulty,
+            proposed_summary, proposed_at: today, proposed_by: topic-researcher,
+            status: pending-review).
+
+            Sau khi proposal được tạo, commit với message:
+              "Weekly: new topic proposal from researcher agent"
+            rồi push branch `automation/weekly-research-$(date +%Y-%m-%d)` và open PR
+            với title: "Weekly research: new topic proposal" + body summarize
+            tại sao topic này được chọn + cross-refs hiện có.
+
+      - name: Sanity duplicate-check
+        run: python scripts/build_index.py --check-duplicates

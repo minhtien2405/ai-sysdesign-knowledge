@@ -1,0 +1,117 @@
+name: Post-merge cross-ref backfill
+
+# Phase 3 autonomy — khi 1 PR được merge vào main và có thêm file mới trong
+# case-studies/ (status: done), invoke @cross-ref-finder để backfill inline
+# links trong các case studies cũ → densify wiki graph.
+#
+# Skip nếu PR chỉ touch drafts/, docs/, .claude/, hoặc files khác.
+# Required secret: ANTHROPIC_API_KEY.
+
+on:
+  pull_request:
+    types: [closed]
+    branches: [main]
+  workflow_dispatch:
+    inputs:
+      new_case_id:
+        description: 'Case-study id vừa promoted (e.g. S3-03)'
+        required: true
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  detect-new-case-study:
+    if: github.event.pull_request.merged == true || github.event_name == 'workflow_dispatch'
+    runs-on: ubuntu-latest
+    outputs:
+      new_case_id: ${{ steps.detect.outputs.new_case_id }}
+      should_run: ${{ steps.detect.outputs.should_run }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Detect newly added case study
+        id: detect
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "new_case_id=${{ inputs.new_case_id }}" >> $GITHUB_OUTPUT
+            echo "should_run=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          # PR merge case — diff against pre-merge commit
+          BASE_SHA="${{ github.event.pull_request.base.sha }}"
+          HEAD_SHA="${{ github.event.pull_request.merge_commit_sha }}"
+          # Filter to NEW files (status A) under case-studies/
+          NEW_FILES=$(git diff --name-only --diff-filter=A "$BASE_SHA" "$HEAD_SHA" -- 'case-studies/*.md' || true)
+          echo "Newly added case-study files:"
+          echo "$NEW_FILES"
+          if [ -z "$NEW_FILES" ]; then
+            echo "No new case studies in this PR — skip cross-ref backfill."
+            echo "should_run=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          # Take first new file, extract id (S<X>-<YY>)
+          FIRST=$(echo "$NEW_FILES" | head -1)
+          CASE_ID=$(basename "$FIRST" | grep -oE '^S[0-9]+-[0-9]+' | head -1)
+          if [ -z "$CASE_ID" ]; then
+            echo "Could not extract id from $FIRST"
+            echo "should_run=false" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          echo "Detected new case study: $CASE_ID"
+          echo "new_case_id=$CASE_ID" >> $GITHUB_OUTPUT
+          echo "should_run=true" >> $GITHUB_OUTPUT
+
+  backfill:
+    needs: detect-new-case-study
+    if: needs.detect-new-case-study.outputs.should_run == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+
+      - name: Set up Python 3.10
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+
+      - name: Install pyyaml
+        run: pip install pyyaml
+
+      - name: Run cross-ref-finder via Claude Code
+        uses: anthropics/claude-code-action@v1
+        with:
+          anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          model: claude-opus-4-7
+          direct_prompt: |
+            A new case study has been merged: ${{ needs.detect-new-case-study.outputs.new_case_id }}.
+            Invoke @cross-ref-finder agent to scan existing published case studies
+            và edit MAX 3 file với one-sentence inline link tới new case study tại
+            các natural touchpoint.
+
+            Hard rules (per agent spec):
+            - Read-only on the new case study file itself
+            - Max 3 older case studies edited
+            - Each edit = 1 sentence or parenthetical (xem [..](path))
+            - Use relative paths
+            - Do NOT modify frontmatter of older studies
+
+            Sau backfill:
+            - Run `python scripts/build_index.py` để refresh line_count
+            - Run `python scripts/build_index.py --check-duplicates` để verify
+
+            Commit message: "Post-merge: backfill cross-refs to ${{ needs.detect-new-case-study.outputs.new_case_id }}"
+            Branch: `automation/cross-ref-backfill-${{ needs.detect-new-case-study.outputs.new_case_id }}`
+            PR title: "Cross-ref backfill: link old studies to ${{ needs.detect-new-case-study.outputs.new_case_id }}"
+            PR body: list 3 files edited với line numbers + sentences added.
+
+      - name: Sanity check
+        run: |
+          python scripts/build_index.py --check-duplicates
+          python scripts/validate_refs.py --all
